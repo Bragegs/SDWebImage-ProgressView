@@ -9,5 +9,5 @@ Pod::Spec.new do |s|
   s.platform      = :ios, '5.0'
   s.source_files = '*.{h,m}'
   s.requires_arc = true
-  s.dependency 'SDWebImage', '~> 3.7.0'
+  s.dependency 'SDWebImage', '~> 3.8.0'
 end
