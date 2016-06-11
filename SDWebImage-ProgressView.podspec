@@ -10,4 +10,5 @@ Pod::Spec.new do |s|
   s.source_files = '*.{h,m}'
   s.requires_arc = true
   s.dependency 'SDWebImage', '~> 3.8.0'
+  s.dependency 'M13ProgressSuite'
 end
