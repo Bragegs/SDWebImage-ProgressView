@@ -11,65 +11,73 @@
 
 @implementation UIImageView (ProgressView)
 
-- (void)addProgressView:(UIProgressView *)progressView {
-    UIProgressView *existingProgressView = (UIProgressView *)[self viewWithTag:TAG_PROGRESS_VIEW];
+- (void)addProgressView:(M13ProgressViewRing *)progressView {
+    M13ProgressViewRing *existingProgressView = (M13ProgressViewRing *)[self viewWithTag:TAG_PROGRESS_VIEW];
     if (!existingProgressView) {
         if (!progressView) {
-            progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+            progressView = [[M13ProgressViewRing alloc] init];
+                            //[[M13ProgressViewRing alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         }
 
         progressView.tag = TAG_PROGRESS_VIEW;
         progressView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
 
-        float width = progressView.frame.size.width;
-        float height = progressView.frame.size.height;
-        float x = (self.frame.size.width / 2.0) - width/2;
-        float y = (self.frame.size.height / 2.0) - height/2;
-        progressView.frame = CGRectMake(x, y, width, height);
-
+        /*float width = progressView.frame.size.width;
+         float height = progressView.frame.size.height;
+         float x = (self.frame.size.width / 2.0) - width/2;
+         float y = (self.frame.size.height / 2.0) - height/2;
+        progressView.frame = CGRectMake(self.center.x, self.center.y, width, width);*/
+        float width = self.bounds.size.height*0.5;
+        progressView.frame = CGRectMake(self.center.x, self.center.y, width, width);
+        progressView.center = self.center;
+        progressView.primaryColor = [UIColor colorWithRed:0.20 green:0.20 blue:0.20 alpha:0.80];
+        progressView.secondaryColor = [UIColor colorWithRed:0.97 green:0.97 blue:0.97 alpha:1.00];
         [self addSubview:progressView];
     }
 }
 
 - (void)updateProgress:(CGFloat)progress {
-    UIProgressView *progressView = (UIProgressView *)[self viewWithTag:TAG_PROGRESS_VIEW];
+    M13ProgressViewRing *progressView = (M13ProgressViewRing *)[self viewWithTag:TAG_PROGRESS_VIEW];
     if (progressView) {
-        progressView.progress = progress;
+       // progressView.progress = progress;
+        if(progress>0){
+            [progressView setProgress:progress animated:YES];
+        }
     }
 }
 
 - (void)removeProgressView {
-    UIProgressView *progressView = (UIProgressView *)[self viewWithTag:TAG_PROGRESS_VIEW];
+    M13ProgressViewRing *progressView = (M13ProgressViewRing *)[self viewWithTag:TAG_PROGRESS_VIEW];
     if (progressView) {
         [progressView removeFromSuperview];
     }
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url usingProgressView:(UIProgressView *)progressView {
+- (void)sd_setImageWithURL:(NSURL *)url usingProgressView:(M13ProgressViewRing *)progressView {
     [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil usingProgressView:progressView];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder usingProgressView:(UIProgressView *)progressView {
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder usingProgressView:(M13ProgressViewRing *)progressView {
     [self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil usingProgressView:progressView];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options usingProgressView:(UIProgressView *)progressView{
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options usingProgressView:(M13ProgressViewRing *)progressView{
     [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:nil usingProgressView:progressView];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(UIProgressView *)progressView {
+- (void)sd_setImageWithURL:(NSURL *)url completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(M13ProgressViewRing *)progressView {
     [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:completedBlock usingProgressView:progressView];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(UIProgressView *)progressView {
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(M13ProgressViewRing *)progressView {
     [self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:completedBlock usingProgressView:progressView];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(UIProgressView *)progressView {
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(M13ProgressViewRing *)progressView {
     [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:completedBlock usingProgressView:progressView];
 }
 
-- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(UIProgressView *)progressView {
+- (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock usingProgressView:(M13ProgressViewRing *)progressView {
     [self addProgressView:progressView];
     
     __weak typeof(self) weakSelf = self;
